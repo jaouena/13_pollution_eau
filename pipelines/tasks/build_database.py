@@ -130,7 +130,7 @@ def drop_edc_tables():
 def process_edc_datasets(
     refresh_type: Literal["all", "last", "custom"] = "last",
     custom_years: List[str] = None,
-    reset_tables: bool = False,
+    drop_tables: bool = False,
 ):
     """
     Process the EDC datasets.
@@ -139,7 +139,7 @@ def process_edc_datasets(
         - "last": Refresh the data only for the last available year
         - "custom": Refresh the data for the years specified in the list custom_years
     :param custom_years: years to update
-    :param reset_tables: Whether to drop edc tables in the database before data insertion.
+    :param drop_tables: Whether to drop edc tables in the database before data insertion.
     :return:
     """
     available_years = edc_config["source"]["available_years"]
@@ -171,7 +171,7 @@ def process_edc_datasets(
 
     logger.info(f"Launching processing of EDC datasets for years: {years_to_update}")
 
-    if reset_tables or (refresh_type == "all"):
+    if drop_tables or (refresh_type == "all"):
         drop_edc_tables()
 
     for year in years_to_update:
@@ -185,15 +185,15 @@ def process_edc_datasets(
 def execute(
     refresh_type: str = "all",
     custom_years: List[str] = None,
-    reset_tables: bool = False,
+    drop_tables: bool = False,
 ):
     """
     Execute the EDC dataset processing with specified parameters.
 
     :param refresh_type: Type of refresh to perform ("all", "last", or "custom")
     :param custom_years: List of years to process when refresh_type is "custom"
-    :param reset_tables: Whether to drop edc tables in the database before data insertion.
+    :param drop_tables: Whether to drop edc tables in the database before data insertion.
     """
     process_edc_datasets(
-        refresh_type=refresh_type, custom_years=custom_years, reset_tables=reset_tables
+        refresh_type=refresh_type, custom_years=custom_years, drop_tables=drop_tables
     )
