@@ -61,7 +61,14 @@ def run():
     type=str,
     help="Comma-separated list of years to process (for custom refresh type)",
 )
-def run_build_database(refresh_type, custom_years):
+@click.option(
+    "--reset-tables",
+    is_flag=True,
+    show_default=True,
+    default=False,
+    help="Drop and re-create edc tables in the database before data insertion.",
+)
+def run_build_database(refresh_type, custom_years, reset_tables):
     """Run build_database task."""
     module = importlib.import_module("tasks.build_database")
     task_func = getattr(module, "execute")
@@ -70,7 +77,11 @@ def run_build_database(refresh_type, custom_years):
     if custom_years:
         custom_years_list = [year.strip() for year in custom_years.split(",")]
 
-    task_func(refresh_type=refresh_type, custom_years=custom_years_list)
+    task_func(
+        refresh_type=refresh_type,
+        custom_years=custom_years_list,
+        reset_tables=reset_tables,
+    )
 
 
 @run.command("download_database")
