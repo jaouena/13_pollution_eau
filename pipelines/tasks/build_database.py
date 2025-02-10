@@ -4,11 +4,14 @@ Consolidate data into the database.
 Args:
     - refresh-type (str): Type of refresh to perform ("all", "last", or "custom")
     - custom-years (str): List of years to process when refresh_type is "custom"
+    - drop-tables (store True): Drop edc tables before running import
 
 Examples:
-    - build_database --refresh-type all : Process all years
+    - build_database --refresh-type all : Drop tables and process all years
     - build_database --refresh-type last : Process last year only
     - build_database --refresh-type custom --custom-years 2018,2024 : Process only the years 2018 and 2024
+    - build_database --refresh-type last --drop-tables : Drop tables and process last year only
+
 """
 
 import logging
@@ -115,7 +118,7 @@ def download_extract_insert_yearly_edc_data(year: str):
 
 
 def drop_edc_tables():
-    """Drop tables using tables names defined in _config_edc.py"""
+    """Drop edc tables using tables names defined in _config_edc.py"""
     conn = duckdb.connect(DUCKDB_FILE)
     tables_names = [
         file_info["table_name"] for file_info in edc_config["files"].values()
