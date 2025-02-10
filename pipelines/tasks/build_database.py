@@ -9,6 +9,7 @@ Examples:
     - build_database --refresh-type all : Process all years
     - build_database --refresh-type last : Process last year only
     - build_database --refresh-type custom --custom-years 2018,2024 : Process only the years 2018 and 2024
+    - build_database --refresh-type last --drop-tables : Drop tables and process last year only
 """
 
 import logging

@@ -98,6 +98,11 @@ uv run pipelines/run.py run build_database --refresh-type all
 uv run pipelines/run.py run build_database --refresh-type custom --custom-years 2018,2024,...
 ```
 
+* 4. Suppression des tables, puis téléchargement des données de la dernière année
+```bash
+uv run pipelines/run.py run build_database --refresh-type last --drop-tables
+```
+
 ### Comment télécharger la database depuis S3
 
 Des versions de dev et de production de la db sont à disposition sur le storage object.
